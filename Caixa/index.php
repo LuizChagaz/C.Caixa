@@ -43,11 +43,11 @@
                 <th><?php echo ""?></th>
             </tr>
             <?php }?>
-            <tr>
+            <tr id="valorf">
                 <th></th>
                 <th></th>
                 <th></th>
-                <th><?php echo $valorF;?></th>
+                <th id="valf"><?php echo $valorF;?></th>
             </tr>
             </tbody>
         </table>
@@ -70,9 +70,9 @@
   <div class="input-group-prepend">
     <span class="input-group-text" id="basic-addon1">Valor</span>
   </div>
-  <input name="valor" type="number" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+  <input id="val" name="valor" type="number" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
 </div>
-<select name="movimentacao" class="form-select" aria-label="Default select example">
+<select id="movi" name="movimentacao" class="form-select" aria-label="Default select example">
   <option selected>Tipo de movimentação</option>
   <option value="entrada">Entrada</option>
   <option value="saida">Saida</option>
@@ -93,6 +93,9 @@
     <script src="js/script.js"></script>
     <script>
         $ = jQuery
+        function addli(){
+
+        }
         function pageload(){
             const buttons = document.querySelectorAll("#entrar")
             for (const button of buttons) {
@@ -105,6 +108,21 @@
                     data: $("#formi").serialize(),
                     dataType: "text",
                     success: function(){
+                        var valo = document.querySelector("#val").value;
+                        if(document.querySelector("#movi").options[document.querySelector("#movi").selectedIndex].text == "Entrada"){
+                            cor1 = "green";
+                            cor2 = "red";
+                            valor = valo;
+                        }else if(document.querySelector("#movi").options[document.querySelector("#movi").selectedIndex].text == "Saida"){
+                            cor1 = "red";
+                            cor2 = "green";
+                            valor = "-" + valo;
+                        }
+                        var $valorf = document.querySelector("#valorf");
+                        linha = "<tr><th style='background-color:"+ cor1 +" ;'></th><th style='background-color:"+ cor2 +" ;'></th><th>"+ document.querySelector("#val").value +"</th><th></th></tr>";
+                        $valorf.insertAdjacentHTML('beforebegin', linha);
+                        var valorf = parseInt(valor) + parseInt(document.querySelector("#valf").innerHTML); 
+                        document.querySelector("#valf").textContent = valorf;
                     }
                 })
             })
