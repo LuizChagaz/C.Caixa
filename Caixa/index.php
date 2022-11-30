@@ -39,7 +39,7 @@
             <tr>
                 <th style="<?php if($value["entrada"]== 1){ echo "background-color:green;";}else{echo "background-color:red;";}?>"></th>
                 <th style="<?php if($value["saida"]== 1){ echo "background-color:green;";}else{echo "background-color:red;";}?>"></th>
-                <th><?php echo $value["valor"]?></th>
+                <th><?php echo "R$ " . $value["valor"]?></th>
                 <th><?php echo ""?></th>
             </tr>
             <?php }?>
@@ -47,12 +47,12 @@
                 <th></th>
                 <th></th>
                 <th></th>
-                <th id="valf"><?php echo $valorF;?></th>
+                <th id="valf"><?php echo "R$ " . $valorF;?></th>
             </tr>
             </tbody>
         </table>
     </div>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+    <button type="button" class="but btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
         Adicionar movimentação
     </button>
 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -96,39 +96,25 @@
         function addli(){
 
         }
-        function pageload(){
+        function pageload(){            
             const buttons = document.querySelectorAll("#entrar")
             for (const button of buttons) {
             button.addEventListener('click', function(event) {
                 event.preventDefault();
-                var form = document.querySelector("#formi");
-                $.ajax({
-                    url: "inserir.php",
-                    method: "post",
-                    data: $("#formi").serialize(),
-                    dataType: "text",
-                    success: function(){
-                        var valo = document.querySelector("#val").value;
-                        if(document.querySelector("#movi").options[document.querySelector("#movi").selectedIndex].text == "Entrada"){
-                            cor1 = "green";
-                            cor2 = "red";
-                            valor = valo;
-                        }else if(document.querySelector("#movi").options[document.querySelector("#movi").selectedIndex].text == "Saida"){
-                            cor1 = "red";
-                            cor2 = "green";
-                            valor = "-" + valo;
-                        }
-                        var $valorf = document.querySelector("#valorf");
-                        linha = "<tr><th style='background-color:"+ cor1 +" ;'></th><th style='background-color:"+ cor2 +" ;'></th><th>"+ document.querySelector("#val").value +"</th><th></th></tr>";
-                        $valorf.insertAdjacentHTML('beforebegin', linha);
-                        var valorf = parseInt(valor) + parseInt(document.querySelector("#valf").innerHTML); 
-                        document.querySelector("#valf").textContent = valorf;
-                    }
-                })
-            })
-            }
-        }
+                var form = new FormData(document.querySelector("#formi"));
+                fetch("inserir.php", {
+                    headers: { "Content-Type" : "text/plain" },
+                    method: "POST",
+                    body: form
+                }).then(function(resposta) {
+                    console.log(resposta);
+                });
+        }) 
+         
+            }
+        }
         window.onload = pageload;
+    
     </script>
 </body>
 </html>

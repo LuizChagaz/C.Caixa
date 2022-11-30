@@ -1,0 +1,9 @@
+.but{
+    position: fixed;
+    height: 60px;
+    bottom: 10px;
+    right: 40px;
+}
+html{
+    background-color: #454d55;
+}
