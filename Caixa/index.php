@@ -103,7 +103,6 @@
                 event.preventDefault();
                 var form = new FormData(document.querySelector("#formi"));
                 fetch("inserir.php", {
-                    headers: { "Content-Type" : "text/plain" },
                     method: "POST",
                     body: form
                 }).then(function(resposta) {
@@ -111,8 +110,8 @@
                 });
         }) 
          
-            }
-        }
+            }
+        }
         window.onload = pageload;
     
     </script>
